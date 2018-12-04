@@ -18,10 +18,23 @@ func main() {
 	}
 
 	nums := strings.Split(string(dat), "\n")
-	for _, v := range nums {
-		i, _ := strconv.ParseInt(v, 10, 64)
-		freq = freq + i
+	memo := make(map[int64]bool)
+	memo[freq] = true
+
+	for {
+		for i, v := range nums {
+			if len(v) == 0 {
+				fmt.Printf("skipping %v %v\n", i, v)
+				continue // skip empty lines
+			}
+			val, _ := strconv.ParseInt(v, 10, 64)
+			freq = freq + val
+			if memo[freq] {
+				fmt.Printf("already seen %v\n", freq)
+				return
+			}
+			memo[freq] = true
+		}
 	}
 
-	fmt.Printf("freq: %v", freq)
 }
