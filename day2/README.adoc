@@ -1,0 +1,16 @@
+= README
+Martin Murphy
+v1.0.0, 2018-12-05
+
+Info about building and running the code for the advent of code 2018 problems.
+The following descriptions use a docker container running golang 1.11, with the current directory mounted as a volume inside the container.
+
+== Build an OSX binary
+
+[source,shell]
+docker run --rm -it -v "${PWD}:/app"  -w /app golang:1.11 sh -c "GOOS=darwin go build"
+
+== Run the tests
+
+[source,shell]
+docker run --rm -it -v "${PWD}:/app"  -w /app golang:1.11 sh -c "go test"
