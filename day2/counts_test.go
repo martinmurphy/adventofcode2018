@@ -26,6 +26,24 @@ var countTests = []struct {
 }
 var expectedChecksum = 12
 
+var differenceData = []struct {
+	id1, id2, sameChars string
+	expectedDiffs       int
+}{
+	{"abcde", "axcye", "ace", 2},
+	{"fghij", "fguij", "fgij", 1},
+	{"abcde", "abcde", "abcde", 0},
+}
+
+var inputIDs = `abcde
+fghij
+klmno
+pqrst
+fguij
+axcye
+wvxyz`
+var expectedFoundIDs = "fgij"
+
 func TestCounts(t *testing.T) {
 	for i, data := range countTests {
 		twos, threes := countID(data.str)
@@ -44,4 +62,32 @@ func TestChecksum(t *testing.T) {
 	if actualChecksum != expectedChecksum {
 		t.Errorf("error on checksum, expected %v, actual %v", expectedChecksum, actualChecksum)
 	}
+}
+
+func TestDifferences(t *testing.T) {
+	for i, data := range differenceData {
+		actualDiffs := differences(data.id1, data.id2)
+		if actualDiffs != data.expectedDiffs {
+			t.Errorf("error on row %v (%s, %s), expected %v, actual %v", i, data.id1, data.id2, data.expectedDiffs, actualDiffs)
+		}
+	}
+
+}
+
+func TestSameChars(t *testing.T) {
+	for i, data := range differenceData {
+		actualSames := sameChars(data.id1, data.id2)
+		if actualSames != data.sameChars {
+			t.Errorf("error on row %v (%s, %s), expected %v, actual %v", i, data.id1, data.id2, data.sameChars, actualSames)
+		}
+	}
+
+}
+
+func TestFindIDs(t *testing.T) {
+	actualFoundIDs := findIDs(inputIDs)
+	if actualFoundIDs != expectedFoundIDs {
+		t.Errorf("error, expected %v, actual %v", expectedFoundIDs, actualFoundIDs)
+	}
+
 }
