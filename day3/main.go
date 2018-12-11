@@ -14,4 +14,7 @@ func main() {
 
 	countOverlaps := countOverlaps(string(data))
 	fmt.Printf("Overlaps: %v\n", countOverlaps)
+	nonoverlapping := checkNonOverlap(string(data))
+	fmt.Printf("Non-overlap: %v\n", nonoverlapping)
+
 }

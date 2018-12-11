@@ -7,6 +7,10 @@ var expectedClaim = Claim{"123", 3, 2, 5, 4}
 
 var testClaim = Claim{"1", 1, 2, 3, 2}
 
+var testInputFile = `#123 @ 3,2: 5x4
+#123 @ 3,2: 5x4
+`
+
 func TestParseClaim(t *testing.T) {
 	actualClaim := parseClaim(testString)
 
@@ -62,4 +66,22 @@ func TestOverlapClaim(t *testing.T) {
 			}
 		}
 	}
+}
+func TestOverlaps(t *testing.T) {
+	c := MakeCloth(10, 10)
+	addClaim(c, testClaim)
+	addClaim(c, testClaim)
+	num := countOvers(c, 10, 10)
+	if num != 6 {
+		t.Errorf("error overlap area incorrect expected: %v,actual %v", 6, num)
+	}
+}
+
+func TestCountOverlaps(t *testing.T) {
+
+	c := countOverlaps(testInputFile)
+	if c != 20 {
+		t.Errorf("error parsing inputfile, expected %v, actual %v", 20, c)
+	}
+
 }
